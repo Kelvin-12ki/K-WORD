@@ -43,7 +43,7 @@ export interface WritingAnalysis {
 
 const CONTEXTS = ["Professional", "Business", "Academic", "Daily"] as const;
 
-function pickFallbackWord(word: string): EnrichmentResult {
+function pickFallbackWord(word: string, meaning?: string): EnrichmentResult {
   const w = word.trim();
   const article = /^[aeiou]/i.test(w) ? "an" : "a";
   return {
@@ -51,7 +51,8 @@ function pickFallbackWord(word: string): EnrichmentResult {
     partOfSpeech: "adjective",
     synonyms: ["notable", "significant", "relevant"],
     antonyms: ["minor", "trivial", "irrelevant"],
-    refinedMeaning: `${w} — ${article} term worth adding to your active vocabulary.`,
+    refinedMeaning:
+      meaning?.trim() || `${w} — ${article} term worth adding to your active vocabulary.`,
     examples: CONTEXTS.map((context) => ({
       context,
       sentence: `The team applied ${w} during the ${context.toLowerCase()} review to improve the outcome.`,
