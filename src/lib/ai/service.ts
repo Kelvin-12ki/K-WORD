@@ -65,7 +65,7 @@ export async function enrichWord(input: {
   meaning?: string;
   category?: string;
 }): Promise<EnrichmentResult & { source: "ai" | "fallback" }> {
-  const fallback = { ...pickFallbackWord(input.word), source: "fallback" as const };
+  const fallback = { ...pickFallbackWord(input.word, input.meaning), source: "fallback" as const };
   if (!aiAvailable()) return fallback;
 
   try {
