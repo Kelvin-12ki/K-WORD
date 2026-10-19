@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import type { ChatCompletionCreateParamsNonStreaming } from "openai/resources/chat/completions";
 import { AI_MODELS } from "@/lib/constants";
 
 let client: OpenAI | null = null;
@@ -35,15 +36,22 @@ export async function chatJSON<T>(params: {
     );
   }
 
-  const base = {
+  // Reasoning models spend most of their latency thinking. Set
+  // AI_REASONING_EFFORT (e.g. "none") to keep responses interactive.
+  const effort = process.env.AI_REASONING_EFFORT?.trim() as
+    | ChatCompletionCreateParamsNonStreaming["reasoning_effort"]
+    | undefined;
+
+  const base: ChatCompletionCreateParamsNonStreaming = {
     model: AI_MODELS.chat,
     temperature: params.temperature ?? 0.7,
     max_tokens: params.maxTokens ?? 1200,
     messages: [
-      { role: "system" as const, content: params.system },
-      { role: "user" as const, content: params.user },
+      { role: "system", content: params.system },
+      { role: "user", content: params.user },
     ],
   };
+  if (effort) base.reasoning_effort = effort;
 
   let raw: string;
   try {
