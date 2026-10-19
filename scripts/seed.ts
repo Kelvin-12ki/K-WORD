@@ -10,6 +10,7 @@ import { connectDB } from "../src/lib/db";
 import { User, Word, Review, UserExample } from "../src/models";
 import { scheduleReview } from "../src/lib/spaced-repetition";
 import { startOfDay, addDays } from "../src/lib/utils";
+import { ensureSrvResolution } from "./dns-fallback";
 
 const SEED_EMAIL = "demo@kword.app";
 
@@ -236,6 +237,7 @@ async function seed() {
   }
 
   console.log("→ Connecting to MongoDB…");
+  await ensureSrvResolution(process.env.MONGODB_URI);
   await connectDB();
 
   const email = SEED_EMAIL.toLowerCase();

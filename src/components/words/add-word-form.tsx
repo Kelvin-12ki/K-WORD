@@ -288,19 +288,21 @@ export function AddWordForm() {
                   </Badge>
                 ))}
               </div>
-              <div>
-                <p className="mb-2 font-medium">Examples</p>
-                <ul className="space-y-2">
-                  {preview.examples.map((ex, i) => (
-                    <li key={i} className="rounded-lg bg-muted/50 px-3 py-2">
-                      <Badge variant="muted" className="mb-1">
-                        {ex.context}
-                      </Badge>
-                      <p className="text-muted-foreground">{ex.sentence}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {preview.examples.length > 0 && (
+                <div>
+                  <p className="mb-2 font-medium">Examples</p>
+                  <ul className="space-y-2">
+                    {preview.examples.map((ex, i) => (
+                      <li key={i} className="rounded-lg bg-muted/50 px-3 py-2">
+                        <Badge variant="muted" className="mb-1">
+                          {ex.context}
+                        </Badge>
+                        <p className="text-muted-foreground">{ex.sentence}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}

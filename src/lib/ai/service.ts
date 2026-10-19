@@ -43,20 +43,16 @@ export interface WritingAnalysis {
 
 const CONTEXTS = ["Professional", "Business", "Academic", "Daily"] as const;
 
-function pickFallbackWord(word: string, meaning?: string): EnrichmentResult {
-  const w = word.trim();
-  const article = /^[aeiou]/i.test(w) ? "an" : "a";
+function pickFallbackWord(meaning?: string): EnrichmentResult {
+  // Deliberately empty: inventing synonyms/antonyms/POS for an unknown word
+  // stores misleading data. Callers fall back to whatever the user typed.
   return {
-    pronunciation: `/${w.toLowerCase().replace(/[^a-z]/g, "").split("").join("·")}/`,
-    partOfSpeech: "adjective",
-    synonyms: ["notable", "significant", "relevant"],
-    antonyms: ["minor", "trivial", "irrelevant"],
-    refinedMeaning:
-      meaning?.trim() || `${w} — ${article} term worth adding to your active vocabulary.`,
-    examples: CONTEXTS.map((context) => ({
-      context,
-      sentence: `The team applied ${w} during the ${context.toLowerCase()} review to improve the outcome.`,
-    })),
+    pronunciation: "",
+    partOfSpeech: "",
+    synonyms: [],
+    antonyms: [],
+    refinedMeaning: meaning?.trim() ?? "",
+    examples: [],
   };
 }
 
@@ -65,7 +61,7 @@ export async function enrichWord(input: {
   meaning?: string;
   category?: string;
 }): Promise<EnrichmentResult & { source: "ai" | "fallback" }> {
-  const fallback = { ...pickFallbackWord(input.word, input.meaning), source: "fallback" as const };
+  const fallback = { ...pickFallbackWord(input.meaning), source: "fallback" as const };
   if (!aiAvailable()) return fallback;
 
   try {
