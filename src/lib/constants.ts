@@ -59,8 +59,11 @@ export const LEVELS = [
   { level: 5, title: "Wordsmith", minXP: 5000 },
 ] as const;
 
-export const OPENAI_MODELS = {
-  chat: process.env.OPENAI_MODEL || "gpt-4o-mini",
+export const AI_MODELS = {
+  chat: process.env.AI_MODEL || process.env.OPENAI_MODEL || "gpt-4o-mini",
 } as const;
+
+/** @deprecated use AI_MODELS */
+export const OPENAI_MODELS = AI_MODELS;
 
 export const API_PREFIX = "/api";

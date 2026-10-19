@@ -33,8 +33,9 @@ git push -u origin main
 | `NEXTAUTH_URL` | `https://your-app.vercel.app` (compat) |
 | `GOOGLE_CLIENT_ID` | Google OAuth client ID |
 | `GOOGLE_CLIENT_SECRET` | Google OAuth secret |
-| `OPENAI_API_KEY` | OpenAI key (server-side only) |
-| `OPENAI_MODEL` | `gpt-4o-mini` (optional) |
+| `AI_API_KEY` | AI provider key (server-side only) |
+| `AI_BASE_URL` | e.g. `https://generativelanguage.googleapis.com/v1beta/openai/` for Gemini |
+| `AI_MODEL` | e.g. `gemini-2.5-flash` |
 
 4. **Deploy**.
 
@@ -77,7 +78,7 @@ K WORD is a standard Next.js app — any Node host works:
 ## Production Hardening
 
 - Enable Atlas **backup snapshots** and set a retention policy.
-- Set `OPENAI_API_KEY` as a Vercel environment variable only (never committed).
+- Set `AI_API_KEY` as a Vercel environment variable only (never committed).
 - Add rate limiting (e.g. Upstash Ratelimit) in `middleware.ts` for `/api/*`.
 - Configure error monitoring (Sentry `@sentry/nextjs`).
 - Set `AUTH_SECRET` to ≥ 32 random bytes.

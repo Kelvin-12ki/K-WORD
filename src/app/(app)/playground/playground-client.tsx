@@ -46,7 +46,7 @@ export function PlaygroundClient() {
       setWordIds(data.wordIds ?? []);
       setStarted(true);
       if (data.source === "fallback") {
-        toast.info("Running in offline mode — add OPENAI_API_KEY for full AI conversations");
+        toast.info("Running in offline mode — add an AI API key for full AI conversations");
       }
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not start conversation");

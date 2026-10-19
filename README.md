@@ -38,7 +38,7 @@ analysis.
 - **Backend:** Next.js Route Handlers
 - **Database:** MongoDB Atlas + Mongoose ODM
 - **Auth:** NextAuth / Auth.js v5 (Credentials + Google)
-- **AI:** OpenAI API (graceful offline fallbacks when no key is set)
+- **AI:** Any OpenAI-compatible API — Gemini, Groq or OpenAI (graceful offline fallbacks when no key is set)
 - **Charts:** Recharts
 - **Deploy:** Vercel
 
@@ -47,7 +47,7 @@ analysis.
 ```bash
 git clone <your-repo-url> k-word && cd k-word
 npm install
-cp .env.example .env.local     # fill in MONGODB_URI, AUTH_SECRET, OPENAI_API_KEY
+cp .env.example .env.local     # fill in MONGODB_URI, AUTH_SECRET, AI_API_KEY
 npm run seed                   # optional demo data
 npm run dev                    # http://localhost:3000
 ```
@@ -108,8 +108,9 @@ See [.env.example](.env.example).
 | `MONGODB_URI` | ✅ | MongoDB Atlas connection |
 | `AUTH_SECRET` | ✅ | NextAuth JWT signing |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Optional | Google login |
-| `OPENAI_API_KEY` | Optional* | AI features (*app runs in offline-fallback mode without it) |
-| `OPENAI_MODEL` | Optional | Defaults to `gpt-4o-mini` |
+| `AI_API_KEY` | Optional* | AI features (*app runs in offline-fallback mode without it) |
+| `AI_BASE_URL` | Optional | OpenAI-compatible endpoint, e.g. Gemini or Groq |
+| `AI_MODEL` | Optional | Defaults to `gpt-4o-mini`; set `gemini-2.5-flash` for Gemini |
 
 ## API Overview
 

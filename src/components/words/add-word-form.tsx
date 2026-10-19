@@ -256,7 +256,7 @@ export function AddWordForm() {
               <CardTitle className="flex items-center gap-2 text-base">
                 <Sparkles className="h-4 w-4 text-accent" /> AI Enrichment Preview
                 {preview.source === "fallback" && (
-                  <Badge variant="warning">Offline mode — add OPENAI_API_KEY for full AI</Badge>
+                  <Badge variant="warning">Offline mode — add an AI API key for full AI</Badge>
                 )}
               </CardTitle>
               <CardDescription>

@@ -36,8 +36,10 @@ GOOGLE_CLIENT_ID=""
 GOOGLE_CLIENT_SECRET=""
 
 # Optional — AI features (app degrades gracefully without it)
-OPENAI_API_KEY=""
-OPENAI_MODEL="gpt-4o-mini"
+# Any OpenAI-compatible endpoint works — Gemini, Groq, or OpenAI itself.
+AI_API_KEY=""
+AI_BASE_URL="https://generativelanguage.googleapis.com/v1beta/openai/"
+AI_MODEL="gemini-2.5-flash"
 ```
 
 Generate `AUTH_SECRET`:
@@ -96,6 +98,6 @@ npm run build       # production build passes
 | `Missing MONGODB_URI` | You edited `.env.example` instead of `.env.local` |
 | `Invalid login credentials` | Seed didn't run, or `SEED_PASSWORD` changed — rerun `npm run seed` |
 | Google button errors | Redirect URI must be exactly `http://localhost:3000/api/auth/callback/google` |
-| AI features show "offline mode" | `OPENAI_API_KEY` missing — features fall back to heuristic responses |
+| AI features show "offline mode" | `AI_API_KEY` missing — features fall back to heuristic responses |
 | Port 3000 busy | `npm run dev -- -p 3001` |
 | Stale build cache | Delete `.next` and rerun `npm run dev` |

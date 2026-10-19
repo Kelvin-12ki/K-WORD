@@ -134,7 +134,7 @@ export function WritingClient() {
               <p className="text-sm leading-relaxed text-muted-foreground">{result.summary}</p>
               {result.source === "fallback" && (
                 <Badge variant="warning" className="mt-3">
-                  Offline heuristic analysis — add OPENAI_API_KEY for deeper insights
+                    Offline heuristic analysis — add an AI API key for deeper insights
                 </Badge>
               )}
             </CardContent>

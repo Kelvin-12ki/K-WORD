@@ -78,7 +78,7 @@ POST /api/words
  ├─ requireUser()
  ├─ createWordSchema.validate()
  ├─ duplicate check (case-insensitive unique per user)
- ├─ enrichWord() ── OPENAI_API_KEY? ──► JSON-mode GPT call
+  ├─ enrichWord() ── AI_API_KEY? ──► JSON-mode chat call
  │                          └── no key ──► deterministic fallback
  ├─ Word.create()
  └─ Promise.all [ refreshUserCounters, awardXP(+10), $addToSet category ]
