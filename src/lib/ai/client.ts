@@ -53,31 +53,42 @@ export async function chatJSON<T>(params: {
   };
   if (effort) base.reasoning_effort = effort;
 
-  let raw: string;
-  try {
-    const response = await ai.chat.completions.create({
-      ...base,
-      response_format: { type: "json_object" },
-    });
-    raw = response.choices[0]?.message?.content ?? "";
-  } catch (err) {
-    // Some OpenAI-compatible backends reject response_format; retry without it.
-    if (!isResponseFormatError(err)) throw err;
-    const response = await ai.chat.completions.create(base);
-    raw = response.choices[0]?.message?.content ?? "";
-  }
+  const withoutReasoning = { ...base };
+  delete (withoutReasoning as Record<string, unknown>).reasoning_effort;
 
-  return parseJSON<T>(raw);
+  // Not every OpenAI-compatible backend supports every optional field, so
+  // degrade by dropping optional params instead of failing the request.
+  const attempts: ChatCompletionCreateParamsNonStreaming[] = [
+    { ...base, response_format: { type: "json_object" } },
+    base,
+    withoutReasoning,
+  ];
+
+  let lastError: unknown;
+  for (const body of attempts) {
+    try {
+      const response = await ai.chat.completions.create(body);
+      const raw = response.choices[0]?.message?.content ?? "";
+      if (!raw.trim()) throw new Error("AI returned an empty response. Please try again.");
+      return parseJSON<T>(raw);
+    } catch (err) {
+      if (!isBadRequest(err)) throw err;
+      lastError = err;
+    }
+  }
+  throw lastError;
 }
 
-function isResponseFormatError(err: unknown): boolean {
+function isBadRequest(err: unknown): boolean {
   if (!(err instanceof Error)) return false;
+  if ((err as { status?: number }).status === 400) return true;
   const msg = err.message.toLowerCase();
   return (
+    msg.includes("invalid argument") ||
+    msg.includes("unknown parameter") ||
     msg.includes("response_format") ||
-    msg.includes("response schema") ||
     msg.includes("json_object") ||
-    msg.includes("json schema")
+    msg.includes("reasoning_effort")
   );
 }
 
