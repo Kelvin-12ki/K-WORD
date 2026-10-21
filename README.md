@@ -30,6 +30,7 @@ analysis.
 | **Writing Assistant** | Vocabulary diversity, repetition and strength scores + stronger-word suggestions from your bank |
 | **Gamification** | XP + 5 levels (Word Collector → Wordsmith), daily streaks |
 | **Extension API** | Ready-to-use `/api/extension/save` with per-user API keys |
+| **Practice Reminders** | Web push notifications 6×/day: words due for review, streak nudges, practice prompts |
 | **Theme** | Indigo/Slate/Emerald palette, dark + light mode, mobile-first responsive |
 
 ## Tech Stack
@@ -111,6 +112,8 @@ See [.env.example](.env.example).
 | `AI_API_KEY` | Optional* | AI features (*app runs in offline-fallback mode without it) |
 | `AI_BASE_URL` | Optional | OpenAI-compatible endpoint, e.g. Gemini or Groq |
 | `AI_MODEL` | Optional | Defaults to `gpt-4o-mini`; set `gemini-2.5-flash` for Gemini |
+| `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` | Optional | Web push reminders (`npx web-push generate-vapid-keys`) |
+| `CRON_SECRET` | Optional | Bearer token guarding `/api/cron/notify` (mirror it in GitHub Actions) |
 
 ## API Overview
 

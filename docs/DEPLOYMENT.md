@@ -65,6 +65,27 @@ Or create the first account through the UI instead.
 - [ ] `GET /api/extension/save` returns the API doc JSON
 - [ ] Dark/light toggle persists
 
+## 7. Practice Reminders (Web Push)
+
+Reminders fire **6×/day at 9:10, 11:10, 13:10, 15:10, 17:10, 20:10 (GMT+3)**.
+
+Vercel Hobby can only schedule a cron **once per day**, so the extra 5 runs come from a GitHub
+Actions workflow in `.github/workflows/reminders.yml` that simply calls the same endpoint.
+
+Setup:
+
+1. Generate VAPID keys — `npx web-push generate-vapid-keys`
+2. Set on Vercel: `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`, `CRON_SECRET`
+3. Mirror the secret to GitHub — `gh secret set CRON_SECRET --repo OWNER/REPO`
+4. Set the repo variable — `gh variable set APP_URL --body "https://your-app.vercel.app" --repo OWNER/REPO`
+5. Each user opts in from **Settings → Practice Reminders** (requires HTTPS + a supported browser)
+
+Send endpoint: `GET /api/cron/notify` (auth: `Authorization: Bearer $CRON_SECRET`).
+It is idempotent — a 90-minute minimum gap between sends per device prevents double nags.
+Subscriptions that return 404/410 are deleted automatically.
+
+Verify with `gh workflow run reminders.yml --ref main`, then check `gh run list`.
+
 ## Alternative Hosts
 
 K WORD is a standard Next.js app — any Node host works:
