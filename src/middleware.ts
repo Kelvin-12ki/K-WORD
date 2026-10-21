@@ -5,7 +5,7 @@ import { authConfig } from "@/lib/auth.config";
 const { auth } = NextAuth(authConfig);
 
 const PUBLIC_PAGES = ["/", "/login", "/register"];
-const PUBLIC_APIS = ["/api/auth", "/api/extension/save"];
+const PUBLIC_APIS = ["/api/auth", "/api/extension/save", "/api/cron"];
 
 export default auth((req) => {
   const { pathname } = req.nextUrl;
@@ -34,5 +34,7 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|sw\\.js|manifest\\.webmanifest|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
 };
