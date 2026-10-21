@@ -20,6 +20,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { PushRemindersCard } from "@/components/settings/push-reminders-card";
 import { DEFAULT_CATEGORIES } from "@/lib/constants";
 
 export function SettingsClient() {
@@ -155,6 +156,8 @@ export function SettingsClient() {
             </div>
           </CardContent>
         </Card>
+
+        <PushRemindersCard />
 
         <Card>
           <CardHeader>

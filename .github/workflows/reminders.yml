@@ -1,0 +1,22 @@
+name: Practice reminders
+
+on:
+  schedule:
+    - cron: "10 6 * * *"
+    - cron: "10 8 * * *"
+    - cron: "10 10 * * *"
+    - cron: "10 12 * * *"
+    - cron: "10 14 * * *"
+    - cron: "10 17 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Trigger reminder send
+        run: |
+          curl -fsS -X GET \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ vars.APP_URL }}/api/cron/notify"
